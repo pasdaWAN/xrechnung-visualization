@@ -1,0 +1,60 @@
+/* Using existing styles as reference from: */
+/* src/xsl/xrechnung-viewer.css lines 1-70 */
+
+.file-upload {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.upload-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  border: 2px dashed #0465A1;
+  border-radius: 4px;
+  background: rgba(4, 101, 161, 0.08);
+}
+
+.upload-button {
+  padding: 0.75rem 1.5rem;
+  background: #0465A1;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.upload-button:hover {
+  background: #035288;
+}
+
+/* Invoice viewer styles */
+.invoice-viewer {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.tab {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+
+.tab.active {
+  border-bottom-color: #0465A1;
+  color: #0465A1;
+} 

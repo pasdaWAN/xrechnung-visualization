@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XRechnung Viewer</title>
+    <!-- Using styles from: src/xsl/xrechnung-viewer.css -->
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="menue" role="navigation">
+        <div role="tablist" class="innen">
+            <!-- Using structure from: src/xsl/xrechnung-html.xsl -->
+            <div role="none">
+                <button role="tab" aria-controls="upload" tabindex="0" aria-selected="true" 
+                        class="tab btnAktiv" id="menuUpload">
+                    <span>Upload</span>
+                </button>
+            </div>
+            <div role="none">
+                <button role="tab" aria-controls="viewer" tabindex="0" aria-selected="false" 
+                        class="tab" id="menuViewer">
+                    <span>View Invoice</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="inhalt">
+        <div class="innen">
+            <div id="upload" class="divShow">
+                <div class="upload-container">
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <input type="file" accept=".xml" id="fileInput" name="xrechnung">
+                        <button type="submit" class="upload-button">Process XRechnung</button>
+                    </form>
+                </div>
+            </div>
+            <div id="viewer" class="divHide">
+                <!-- Invoice content will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/viewer.js"></script>
+</body>
+</html> 
