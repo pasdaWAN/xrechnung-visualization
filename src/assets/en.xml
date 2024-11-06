@@ -254,4 +254,8 @@
   <entry key="_tax-code">Code</entry>
   <entry key="_total">Total</entry>
   <entry key="_page">Page</entry>
+  <entry key="herunterladen">Download</entry>
+  <entry key="keineAnlagen">No attachments available</entry>
+  <entry key="verkaeuferInfo">Seller Information</entry>
+  <entry key="kaeuferInfo">Buyer Information</entry>
 </properties>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { XRechnungData, Attachment } from '../types/index';
-import { getTranslation } from '../utils/translations';
+import { useTranslation } from '../contexts/TranslationContext';
 
 interface Props {
   invoiceData: XRechnungData;
@@ -8,6 +8,7 @@ interface Props {
 
 export const InvoiceViewer: React.FC<Props> = ({ invoiceData }) => {
   const [activeTab, setActiveTab] = useState('overview');
+  const { t, language } = useTranslation();
 
   const handleDownload = (attachment: Attachment) => {
     const blob = new Blob([atob(attachment.content)], { type: attachment.mimeType });
@@ -22,7 +23,7 @@ export const InvoiceViewer: React.FC<Props> = ({ invoiceData }) => {
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('de-DE', { 
+    return new Intl.NumberFormat(language === 'de' ? 'de-DE' : 'en-US', { 
       style: 'currency', 
       currency: invoiceData.currencyCode 
     }).format(amount);
@@ -31,25 +32,25 @@ export const InvoiceViewer: React.FC<Props> = ({ invoiceData }) => {
   return (
     <div className="invoice-viewer">
       <div className="invoice-header">
-        <h1>XRechnung Viewer</h1>
+        <h1>{t('uebersicht')}</h1>
         <div className="tabs">
           <button 
             className={`tab ${activeTab === 'overview' ? 'active' : ''}`}
             onClick={() => setActiveTab('overview')}
           >
-            Übersicht
+            {t('uebersicht')}
           </button>
           <button 
             className={`tab ${activeTab === 'details' ? 'active' : ''}`}
             onClick={() => setActiveTab('details')}
           >
-            Details
+            {t('details')}
           </button>
           <button 
             className={`tab ${activeTab === 'attachments' ? 'active' : ''}`}
             onClick={() => setActiveTab('attachments')}
           >
-            Anlagen
+            {t('anlagen')}
           </button>
         </div>
       </div>
@@ -58,46 +59,46 @@ export const InvoiceViewer: React.FC<Props> = ({ invoiceData }) => {
         {activeTab === 'overview' && (
           <>
             <section className="basic-info">
-              <h2>Rechnungsinformationen</h2>
+              <h2>{t('uebersichtRechnungsInfo')}</h2>
               <div className="info-grid">
-                <p><strong>{getTranslation('xr:Invoice_number')}:</strong> {invoiceData.invoiceNumber}</p>
-                <p><strong>{getTranslation('xr:Invoice_issue_date')}:</strong> {invoiceData.issueDate}</p>
-                <p><strong>{getTranslation('xr:Payment_due_date')}:</strong> {invoiceData.dueDate}</p>
-                <p><strong>{getTranslation('xr:Invoice_type_code')}:</strong> {invoiceData.documentType}</p>
-                {invoiceData.notes && <p><strong>{getTranslation('_invoice-note-group')}:</strong> {invoiceData.notes}</p>}
+                <p><strong>{t('xr:Invoice_number')}:</strong> {invoiceData.invoiceNumber}</p>
+                <p><strong>{t('xr:Invoice_issue_date')}:</strong> {invoiceData.issueDate}</p>
+                <p><strong>{t('xr:Payment_due_date')}:</strong> {invoiceData.dueDate}</p>
+                <p><strong>{t('xr:Invoice_type_code')}:</strong> {invoiceData.documentType}</p>
+                {invoiceData.notes && <p><strong>{t('_invoice-note-group')}:</strong> {invoiceData.notes}</p>}
               </div>
             </section>
 
             <section className="seller-info">
-              <h2>Verkäuferinformationen</h2>
+              <h2>{t('verkaeuferInfo')}</h2>
               <div className="info-grid">
-                <p><strong>Name:</strong> {invoiceData.seller.name}</p>
-                <p><strong>Straße:</strong> {invoiceData.seller.address.street}</p>
-                <p><strong>PLZ:</strong> {invoiceData.seller.address.postcode}</p>
-                <p><strong>Ort:</strong> {invoiceData.seller.address.city}</p>
-                <p><strong>Land:</strong> {invoiceData.seller.address.country}</p>
-                <p><strong>Steuernummer:</strong> {invoiceData.seller.taxId}</p>
+                <p><strong>{t('name')}:</strong> {invoiceData.seller.name}</p>
+                <p><strong>{t('strasse')}:</strong> {invoiceData.seller.address.street}</p>
+                <p><strong>{t('plz')}:</strong> {invoiceData.seller.address.postcode}</p>
+                <p><strong>{t('ort')}:</strong> {invoiceData.seller.address.city}</p>
+                <p><strong>{t('land')}:</strong> {invoiceData.seller.address.country}</p>
+                <p><strong>{t('steuernummer')}:</strong> {invoiceData.seller.taxId}</p>
                 {invoiceData.seller.vatNumber && (
-                  <p><strong>USt-IdNr.:</strong> {invoiceData.seller.vatNumber}</p>
+                  <p><strong>{t('ustIdNr')}:</strong> {invoiceData.seller.vatNumber}</p>
                 )}
                 {invoiceData.seller.contact && (
                   <>
-                    {invoiceData.seller.contact.name && <p><strong>Ansprechpartner:</strong> {invoiceData.seller.contact.name}</p>}
-                    {invoiceData.seller.contact.phone && <p><strong>Telefon:</strong> {invoiceData.seller.contact.phone}</p>}
-                    {invoiceData.seller.contact.email && <p><strong>E-Mail:</strong> {invoiceData.seller.contact.email}</p>}
+                    {invoiceData.seller.contact.name && <p><strong>{t('ansprechpartner')}:</strong> {invoiceData.seller.contact.name}</p>}
+                    {invoiceData.seller.contact.phone && <p><strong>{t('telefon')}:</strong> {invoiceData.seller.contact.phone}</p>}
+                    {invoiceData.seller.contact.email && <p><strong>{t('email')}:</strong> {invoiceData.seller.contact.email}</p>}
                   </>
                 )}
               </div>
             </section>
 
             <section className="buyer-info">
-              <h2>Käuferinformationen</h2>
+              <h2>{t('kaeuferInfo')}</h2>
               <div className="info-grid">
-                <p><strong>Name:</strong> {invoiceData.buyer.name}</p>
-                <p><strong>Straße:</strong> {invoiceData.buyer.address.street}</p>
-                <p><strong>PLZ:</strong> {invoiceData.buyer.address.postcode}</p>
-                <p><strong>Ort:</strong> {invoiceData.buyer.address.city}</p>
-                <p><strong>Land:</strong> {invoiceData.buyer.address.country}</p>
+                <p><strong>{t('name')}:</strong> {invoiceData.buyer.name}</p>
+                <p><strong>{t('strasse')}:</strong> {invoiceData.buyer.address.street}</p>
+                <p><strong>{t('plz')}:</strong> {invoiceData.buyer.address.postcode}</p>
+                <p><strong>{t('ort')}:</strong> {invoiceData.buyer.address.city}</p>
+                <p><strong>{t('land')}:</strong> {invoiceData.buyer.address.country}</p>
               </div>
             </section>
           </>
@@ -105,23 +106,23 @@ export const InvoiceViewer: React.FC<Props> = ({ invoiceData }) => {
 
         {activeTab === 'details' && (
           <section className="invoice-details">
-            <h2>Invoice Details</h2>
+            <h2>{t('rechnungsDetails')}</h2>
             <div className="info-grid">
-              <p><strong>Invoice Number:</strong> {invoiceData.invoiceNumber}</p>
-              <p><strong>Issue Date:</strong> {invoiceData.issueDate}</p>
-              <p><strong>Due Date:</strong> {invoiceData.dueDate}</p>
-              <p><strong>Currency:</strong> {invoiceData.currencyCode}</p>
+              <p><strong>{t('xr:Invoice_number')}:</strong> {invoiceData.invoiceNumber}</p>
+              <p><strong>{t('xr:Invoice_issue_date')}:</strong> {invoiceData.issueDate}</p>
+              <p><strong>{t('xr:Payment_due_date')}:</strong> {invoiceData.dueDate}</p>
+              <p><strong>{t('waehrung')}:</strong> {invoiceData.currencyCode}</p>
             </div>
             
-            <h3>Line Items</h3>
+            <h3>{t('rechnungspositionen')}</h3>
             <table className="line-items-table">
               <thead>
                 <tr>
-                  <th>Description</th>
-                  <th>Quantity</th>
-                  <th>Unit Price</th>
-                  <th>VAT Rate</th>
-                  <th>Total</th>
+                  <th>{t('beschreibung')}</th>
+                  <th>{t('menge')}</th>
+                  <th>{t('einzelpreis')}</th>
+                  <th>{t('ustSatz')}</th>
+                  <th>{t('gesamtpreis')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -129,9 +130,9 @@ export const InvoiceViewer: React.FC<Props> = ({ invoiceData }) => {
                   <tr key={item.id}>
                     <td>{item.description}</td>
                     <td>{item.quantity}</td>
-                    <td>{item.unitPrice}</td>
+                    <td>{formatCurrency(item.unitPrice)}</td>
                     <td>{item.vatRate}%</td>
-                    <td>{item.lineTotal}</td>
+                    <td>{formatCurrency(item.lineTotal)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -141,7 +142,7 @@ export const InvoiceViewer: React.FC<Props> = ({ invoiceData }) => {
 
         {activeTab === 'attachments' && (
           <section className="attachments">
-            <h2>Attachments</h2>
+            <h2>{t('anlagen')}</h2>
             {invoiceData.attachments?.length ? (
               <div className="attachments-list">
                 {invoiceData.attachments.map((attachment, index) => (
@@ -153,13 +154,13 @@ export const InvoiceViewer: React.FC<Props> = ({ invoiceData }) => {
                       className="attachment-download"
                       onClick={() => handleDownload(attachment)}
                     >
-                      Download
+                      {t('herunterladen')}
                     </button>
                   </div>
                 ))}
               </div>
             ) : (
-              <p>No attachments available</p>
+              <p>{t('keineAnlagen')}</p>
             )}
           </section>
         )}

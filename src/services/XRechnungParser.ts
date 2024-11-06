@@ -12,11 +12,34 @@ class XRechnungParser {
     }
 
     private getElementValue(doc: Document | Element, selector: string): string {
-        // Using the standardized XRechnung keys from de.xml
-        const element = doc instanceof Document ? 
-            doc.querySelector(`xr\\:${selector}`) : 
-            doc.querySelector(`[id="BT-${selector}"]`);
-        return element?.textContent || '';
+        try {
+            // Handle different XML namespaces
+            const namespaces = {
+                xr: 'urn:ce.eu:en16931:2017:xoev-de:kosit:standard:xrechnung-1',
+                ram: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100',
+                rsm: 'urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100'
+            };
+
+            // First try direct element selection
+            let element = doc.querySelector(`[id="${selector}"]`);
+            
+            if (!element) {
+                // Try with namespace
+                const parts = selector.split('/');
+                const elementName = parts[parts.length - 1];
+                
+                // Try different namespace combinations
+                for (const ns of Object.keys(namespaces)) {
+                    element = doc.querySelector(`${ns}\\:${elementName}, ${elementName}`);
+                    if (element) break;
+                }
+            }
+
+            return element?.textContent?.trim() || '';
+        } catch (error) {
+            console.warn(`Error getting value for selector ${selector}:`, error);
+            return '';
+        }
     }
 
     public parse(): XRechnungData {

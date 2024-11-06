@@ -256,4 +256,8 @@
   <entry key="_tax-code">St. Code</entry>
   <entry key="_total">Gesamt</entry>
   <entry key="_page">Seite</entry>
+  <entry key="herunterladen">Herunterladen</entry>
+  <entry key="keineAnlagen">Keine Anlagen vorhanden</entry>
+  <entry key="verkaeuferInfo">Verkäuferinformationen</entry>
+  <entry key="kaeuferInfo">Käuferinformationen</entry>
 </properties>

@@ -1,21 +1,16 @@
-export const translateErrorMessage = (code: string, technicalMessage: string): string => {
-  const errorMessages: Record<string, string> = {
-    'INVALID_STRUCTURE': 'Die Struktur der XRechnung ist nicht korrekt',
-    'MISSING_FIELD': 'Ein erforderliches Feld fehlt in der XRechnung',
-    'INVALID_VALUE': 'Ein Wert in der XRechnung ist ungültig',
-    // Add more translations as needed
+import { useTranslation } from '../contexts/TranslationContext';
+import { TranslationKey } from '../types/translations';
+
+export const useErrorTranslations = () => {
+  const { t } = useTranslation();
+  
+  const translateErrorMessage = (code: string, technicalMessage: string): string => {
+    return t(`error.${code}` as TranslationKey) || t('error.unexpected');
   };
 
-  return errorMessages[code] || 'Ein unerwarteter Fehler ist aufgetreten';
-};
-
-export const getErrorSuggestion = (code: string): string => {
-  const suggestions: Record<string, string> = {
-    'INVALID_STRUCTURE': 'Bitte überprüfen Sie, ob die XRechnung dem korrekten Format entspricht',
-    'MISSING_FIELD': 'Bitte fügen Sie alle erforderlichen Felder hinzu',
-    'INVALID_VALUE': 'Bitte überprüfen Sie die eingegebenen Werte',
-    // Add more suggestions as needed
+  const getErrorSuggestion = (code: string): string => {
+    return t(`error.suggestion.${code}` as TranslationKey) || t('error.suggestion.default');
   };
 
-  return suggestions[code] || 'Bitte überprüfen Sie die XRechnung und versuchen Sie es erneut';
+  return { translateErrorMessage, getErrorSuggestion };
 }; 

@@ -3,8 +3,7 @@ import { validateXRechnung } from '../services/validation';
 import XRechnungParser from '../services/XRechnungParser';
 import { XRechnungData, ValidationResult } from '../types/index';
 import { ErrorModal } from './ErrorModal';
-import { translateErrorMessage } from '../utils/errorTranslations';
-import { getErrorSuggestion } from '../utils/errorTranslations';
+import { useErrorTranslations } from '../utils/errorTranslations';
 
 interface FileUploadProps {
   onFileProcessed: (data: XRechnungData, validation: ValidationResult) => void;
@@ -16,6 +15,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileProcessed }) => {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errors, setErrors] = useState<Array<{code: string; message: string; suggestion?: string}>>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { translateErrorMessage, getErrorSuggestion } = useErrorTranslations();
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = event.target.files?.[0];
@@ -25,10 +25,17 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileProcessed }) => {
     setFile(uploadedFile);
     
     try {
-      const validationResult = await validateXRechnung(uploadedFile);
       const fileContent = await uploadedFile.text();
-      const parser = new XRechnungParser(fileContent);
-      const data = parser.parse();
+      
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(fileContent, "text/xml");
+      if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
+        throw new Error("Invalid XML format");
+      }
+
+      const validationResult = await validateXRechnung(uploadedFile);
+      const xrechnungParser = new XRechnungParser(fileContent);
+      const data = xrechnungParser.parse();
       
       if (!validationResult.isValid) {
         setErrors(validationResult.errors.map(error => ({
@@ -41,10 +48,22 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileProcessed }) => {
         onFileProcessed(data, validationResult);
       }
     } catch (error) {
+      console.error('File processing error:', error);
+      
+      let errorMessage = 'Die XRechnung konnte nicht verarbeitet werden.';
+      let suggestion = 'Bitte überprüfen Sie, ob die Datei eine gültige XRechnung ist.';
+      
+      if (error instanceof Error) {
+        if (error.message === "Invalid XML format") {
+          errorMessage = 'Die Datei enthält kein gültiges XML Format.';
+          suggestion = 'Bitte stellen Sie sicher, dass die Datei ein korrektes XML Format hat.';
+        }
+      }
+      
       setErrors([{
         code: 'PROCESSING_ERROR',
-        message: 'Die XRechnung konnte nicht verarbeitet werden.',
-        suggestion: 'Bitte überprüfen Sie, ob die Datei eine gültige XRechnung ist.'
+        message: errorMessage,
+        suggestion: suggestion
       }]);
       setShowErrorModal(true);
     } finally {

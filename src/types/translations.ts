@@ -1,0 +1,47 @@
+export type Language = 'de' | 'en';
+// All possible translation keys from our XML files
+export type TranslationKey =
+  | `xr:${string}`
+  | 'error.INVALID_STRUCTURE'
+  | 'error.MISSING_FIELD'
+  | 'error.INVALID_VALUE'
+  | 'error.unexpected'
+  | 'error.suggestion.INVALID_STRUCTURE'
+  | 'error.suggestion.MISSING_FIELD'
+  | 'error.suggestion.INVALID_VALUE'
+  | 'error.suggestion.default'
+  | 'uebersicht'
+  | 'details'
+  | 'anlagen'
+  | 'uebersichtRechnungsInfo'
+  | 'verkaeuferInfo'
+  | 'kaeuferInfo'
+  | 'rechnungsDetails'
+  | 'rechnungspositionen'
+  | '_invoice-note-group'
+  | '_description'
+  | '_price'
+  | '_total'
+  | 'name'
+  | 'strasse'
+  | 'plz'
+  | 'ort'
+  | 'land'
+  | 'steuernummer'
+  | 'ustIdNr'
+  | 'ansprechpartner'
+  | 'telefon'
+  | 'email'
+  | 'waehrung'
+  | 'beschreibung'
+  | 'menge'
+  | 'einzelpreis'
+  | 'ustSatz'
+  | 'gesamtpreis'
+  | 'herunterladen'
+  | 'keineAnlagen'
+  | 'verkaeuferInfo'
+  | 'kaeuferInfo';
+
+// Type-safe translation function
+export type TranslationFunction = (key: TranslationKey) => string;
