@@ -1,0 +1,13 @@
+/dist
+/build
+/lib
+/reports
+development.build.properties
+.vscode
+*.xpr
+.ant-targets-build.xml
+/xslt
+*.zipost
+/.project
+/.settings/
+node_modules
