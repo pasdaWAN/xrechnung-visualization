@@ -1,1 +1,4 @@
 node_modules
+src/components/InvoiceViewer.tsx
+src/services/XMLService.ts
+src/utils/errorTranslations.ts
