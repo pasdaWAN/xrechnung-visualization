@@ -1,8 +1,6 @@
 import { ValidationError } from '../types/validation';
 import { DOMParser } from 'xmldom';
 import { XMLValidator } from 'fast-xml-parser';
-import * as fs from 'fs';
-import * as path from 'path';
 
 interface XMLValidationOptions {
   allowBooleanAttributes?: boolean;
@@ -12,15 +10,28 @@ interface XMLValidationOptions {
 }
 
 export class XRechnungSchemaValidator {
-  private static readonly schemaPath = path.join(__dirname, '../xsd/xrechnung-semantic-model.xsd');
-  
+  // Instead of reading from filesystem, we'll fetch the schema
+  private static async getSchema(): Promise<string> {
+    try {
+      const response = await fetch('/xsd/xrechnung-semantic-model.xsd');
+      if (!response.ok) {
+        throw new Error('Failed to load XSD schema');
+      }
+      return await response.text();
+    } catch (error) {
+      console.error('Error loading schema:', error);
+      throw error;
+    }
+  }
+
   static async validate(xmlContent: string): Promise<ValidationError[]> {
     const errors: ValidationError[] = [];
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xmlContent, 'application/xml');
 
-    // 1. Basic XML parsing validation
-    if (xmlDoc.querySelector("parsererror")) {
+    // Basic XML parsing validation
+    const parseErrors = xmlDoc.getElementsByTagName("parsererror");
+    if (parseErrors.length > 0) {
       errors.push({
         code: 'PARSE_ERROR',
         message: 'XML-Parsing fehlgeschlagen',
@@ -30,7 +41,7 @@ export class XRechnungSchemaValidator {
       return errors;
     }
 
-    // 2. Document type validation
+    // Document type validation
     const isXRechnung = xmlDoc.getElementsByTagName("Invoice").length > 0 || 
                        xmlDoc.getElementsByTagName("CreditNote").length > 0 ||
                        xmlDoc.getElementsByTagName("CrossIndustryInvoice").length > 0;
@@ -46,9 +57,9 @@ export class XRechnungSchemaValidator {
       return errors;
     }
 
-    // 3. XSD Schema validation
+    // XSD Schema validation
     try {
-      const schemaContent = await fs.promises.readFile(this.schemaPath, 'utf-8');
+      const schemaContent = await this.getSchema();
       const validationResult = XMLValidator.validate(xmlContent, {
         allowBooleanAttributes: true,
         ignoreAttributes: false,
