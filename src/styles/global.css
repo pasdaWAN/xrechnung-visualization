@@ -1,0 +1,226 @@
+/* Variables */
+:root {
+  --color-primary: #0465A1;
+  --color-primary-dark: #035288;
+  --color-error: #dc2626;
+  --color-error-light: #fff5f5;
+  --color-error-border: #fee2e2;
+  --color-warning: #ff4444;
+  --color-text-primary: #333;
+  --color-text-secondary: #666;
+  --color-background: rgba(4, 101, 161, 0.08);
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+  --border-radius-sm: 4px;
+  --border-radius-md: 6px;
+  --border-radius-lg: 8px;
+}
+
+/* Base styles */
+*, *:after, *:before {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-background);
+  color: #000;
+  font-size: 14px;
+}
+
+/* Layout Components */
+.app {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.main-container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+.invoice-viewer-container {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Header Styles */
+.app-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.app-header h1 {
+  color: var(--color-primary);
+}
+
+/* File Upload Component */
+.file-upload {
+  background: white;
+  padding: 2rem;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 2rem;
+}
+
+.upload-container {
+  border: 2px dashed var(--color-primary);
+  border-radius: var(--border-radius-sm);
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Button Styles */
+.button-primary {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+.button-primary:hover {
+  background: var(--color-primary-dark);
+}
+
+.button-primary:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Modal Component */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 1.5rem;
+  border-radius: var(--border-radius-lg);
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-body {
+  padding: 1.5rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Error Display */
+.error-display {
+  width: 400px;
+  background: white;
+  padding: 1.5rem;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  align-self: flex-start;
+  position: sticky;
+  top: 2rem;
+}
+
+.error-card {
+  background: var(--color-error-light);
+  border-radius: var(--border-radius-lg);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+  border: 1px solid var(--color-error-border);
+}
+
+.error-title {
+  color: var(--color-error);
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.error-message {
+  color: var(--color-text-primary);
+  margin: 0.5rem 0;
+}
+
+.error-suggestion {
+  color: var(--color-text-secondary);
+  margin: 0.5rem 0;
+  font-style: italic;
+}
+
+/* Media Queries */
+@media (max-width: 1200px) {
+  .main-container {
+    flex-direction: column;
+  }
+  
+  .error-display {
+    width: 100%;
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .app {
+    padding: 1rem;
+  }
+  
+  .modal-content {
+    width: 95%;
+    margin: 1rem;
+  }
+  
+  .file-upload {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-header {
+    padding: 1rem;
+  }
+  
+  .modal-body {
+    padding: 1rem;
+  }
+  
+  .button-primary {
+    width: 100%;
+  }
+}
