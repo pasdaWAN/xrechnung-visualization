@@ -1,9 +1,8 @@
 import React from 'react';
 import { AlertCircle, CheckCircle, AlertTriangle, ChevronDown } from 'lucide-react';
-import { ValidationResult, ValidationError } from '.';
-import { useErrorTranslations } from '../utils/errorTranslations';
+import { ValidationResult, ValidationError } from './exports';
 import { useTranslation } from '../contexts/TranslationContext';
-import { TranslationKey } from '../types/translations';
+import { MessageKey } from '../translations/messages';
 
 interface ValidationResultsProps {
   result: ValidationResult;
@@ -11,7 +10,6 @@ interface ValidationResultsProps {
 
 const ValidationResults: React.FC<ValidationResultsProps> = ({ result }) => {
   const { t } = useTranslation();
-  const { translateErrorMessage, getErrorSuggestion } = useErrorTranslations();
 
   return (
     <details className="group bg-white rounded-lg shadow-sm" open>
@@ -49,16 +47,16 @@ const ValidationResults: React.FC<ValidationResultsProps> = ({ result }) => {
                 {error.code}
               </h3>
               <p className="mt-1 text-sm text-red-700">
-                {translateErrorMessage(error.code, error.message)}
+                {error.message}
               </p>
               {error.suggestion && (
                 <p className="mt-2 text-sm text-red-600">
-                  {getErrorSuggestion(error.code)}
+                  {error.suggestion}
                 </p>
               )}
               {error.location && (
                 <p className="mt-1 text-sm text-red-600">
-                  {t('error.position' as TranslationKey)}: {error.location}
+                  {t('error.position' as MessageKey)}: {error.location}
                 </p>
               )}
             </div>

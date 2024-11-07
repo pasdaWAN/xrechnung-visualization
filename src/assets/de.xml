@@ -241,25 +241,4 @@
   
   <entry key="sum-of-third-party-payment-amounts">Summe Fremdforderungen</entry>
 
-  <entry key="no-script">Inhalte auf dieser Seite sind ohne JavaScript nur eingeschränkt darstellbar.</entry>
-  <entry key="_disclaimer">Wir übernehmen keine Haftung für die Richtigkeit der Daten.</entry>
-  <entry key="_invoice-note-group">Bemerkungen zur Rechnung</entry>
-  <entry key="_open">Öffnen</entry>
-  <entry key="no-data">Keine Daten vorhanden</entry>
-  <entry key="_net">netto</entry>
-  <entry key="_gross">brutto</entry>
-  <entry key="_no-content">Bereiche ohne Inhalte werden nicht dargestellt!</entry>
-  <entry key="_description">Beschreibung</entry>
-  <entry key="_price">Preis</entry>
-  <entry key="_price-unit">Preiseinheit</entry>
-  <entry key="_vat">USt. Satz</entry>
-  <entry key="_tax-code">St. Code</entry>
-  <entry key="_total">Gesamt</entry>
-  <entry key="_page">Seite</entry>
-  <entry key="herunterladen">Herunterladen</entry>
-  <entry key="keineAnlagen">Keine Anlagen vorhanden</entry>
-  <entry key="verkaeuferInfo">Verkäuferinformationen</entry>
-  <entry key="kaeuferInfo">Käuferinformationen</entry>
-  <entry key="footer.text">© 2024 XRechnungsViewer powered by Robaws. Alle Rechte vorbehalten.</entry>
-  <entry key="uploadXRechnung">XRechnung validieren</entry>
 </properties>

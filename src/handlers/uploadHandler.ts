@@ -1,6 +1,7 @@
-import XRechnungService from '../services/XRechnungService';
-import { ValidationResult, XRechnungData } from '../components';
+import { XRechnungService } from '../services/XRechnungService';
+import { ValidationResult, XRechnungData } from '../components/exports';
 import { ValidationError, ErrorCode } from '../types/validation';
+import { ValidationService } from '../services/ValidationService';
 
 interface UploadResponse {
   success: boolean;
@@ -37,9 +38,8 @@ async function handleXRechnungUpload(file: File): Promise<UploadResponse> {
     }
 
     // XRechnung validation
-    const validationResult = await XRechnungService.validateXRechnung(file);
-    const xrechnungParser = new XRechnungService(content);
-    const data = xrechnungParser.parse();
+    const validationResult = await ValidationService.validateXRechnung(file);
+    const data = await XRechnungService.parseXRechnung(content);
 
     return {
       success: true,

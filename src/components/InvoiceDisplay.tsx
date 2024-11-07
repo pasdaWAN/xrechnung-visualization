@@ -1,6 +1,6 @@
 import React from 'react';
 import { Receipt, Building2, User, FileText, Calendar, CreditCard, Paperclip } from 'lucide-react';
-import { Attachment, XRechnungData } from '.';
+import { Attachment, XRechnungData } from './exports';
 import { useTranslation } from '../contexts/TranslationContext';
 
 interface Props {
@@ -81,7 +81,7 @@ const InvoiceDisplay: React.FC<Props> = ({ invoice }) => {
           <div className="flex items-start space-x-3">
             <FileText className="h-5 w-5 text-gray-400 mt-1" />
             <div>
-              <h3 className="text-sm font-medium text-gray-500">{t('xr:Invoice_number')}</h3>
+              <h3 className="text-sm font-medium text-gray-500">Rechnungsnummer</h3>
               <p className="text-gray-900">{invoice.invoiceNumber}</p>
             </div>
           </div>
@@ -89,10 +89,10 @@ const InvoiceDisplay: React.FC<Props> = ({ invoice }) => {
           <div className="flex items-start space-x-3">
             <Calendar className="h-5 w-5 text-gray-400 mt-1" />
             <div>
-              <h3 className="text-sm font-medium text-gray-500">{t('xr:Invoice_issue_date')}</h3>
+              <h3 className="text-sm font-medium text-gray-500">Rechnungsdatum</h3>
               <p className="text-gray-900">{invoice.issueDate}</p>
               <p className="text-sm text-gray-600 mt-1">
-                {t('xr:Payment_due_date')}: {invoice.dueDate}
+              Fälligkeitsdatum: {invoice.dueDate}
               </p>
             </div>
           </div>

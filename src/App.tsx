@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { FileUpload, InvoiceDisplay, ValidationResults, XRechnungData } from './components';
-import { FileCheck } from 'lucide-react';
-import XRechnungService from '../services/XRechnungService';
+import { FileUpload, InvoiceDisplay, ValidationResults } from './components/exports';
+import { XRechnungData } from './types/xrechnung';
 import { ValidationResult } from './types/validation';
 import { useTranslation } from './contexts/TranslationContext';
+import { FileCheck } from 'lucide-react';
 
 function App() {
   const [file, setFile] = useState<File | null>(null);
@@ -40,7 +40,7 @@ function App() {
         isValid: false,
         errors: [{
           code: 'PROCESSING_ERROR',
-          message: t('error.processing'),
+          message: t('error.PROCESSING_ERROR'),
           location: 'document',
           severity: 'CRITICAL'
         }],
@@ -62,7 +62,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <FileCheck className="h-8 w-8 text-blue-600" />
-            <h1 className="text-2xl font-semibold text-gray-900">{t('xr:Invoice_validator')}</h1>
+            <h1 className="text-2xl font-semibold text-gray-900">XRechnung Viewer</h1>
           </div>
           <div className="flex items-center space-x-4">
             <span className="text-sm text-gray-500">Mehr über Robaws</span>

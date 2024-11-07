@@ -1,9 +1,11 @@
 import React, { useCallback, useState, useRef } from 'react';
 import { Upload, File } from 'lucide-react';
-import { handleXRechnungUpload } from '../handlers/uploadHandler';
-import { useErrorTranslations } from '../utils/errorTranslations';
+import handleXRechnungUpload from '../handlers/uploadHandler';
 import { useTranslation } from '../contexts/TranslationContext';
 import ValidationResults from './ValidationResults';
+import { MessageKey } from '../translations/messages';
+import { ErrorCode, ValidationResult, ValidationError } from '../types/validation';
+import { XRechnungData } from '../types/xrechnung';
 
 interface FileUploadProps {
   onFileProcessed: (data: XRechnungData, validation: ValidationResult) => void;
@@ -11,7 +13,6 @@ interface FileUploadProps {
 
 const FileUpload: React.FC<FileUploadProps> = ({ onFileProcessed }) => {
   const { t } = useTranslation();
-  const { translateErrorMessage, getErrorSuggestion } = useErrorTranslations();
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<ValidationError[]>([]);
@@ -27,8 +28,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileProcessed }) => {
       if (!result.success) {
         setErrors([{
           ...result.error!,
-          message: translateErrorMessage(result.error!.code, result.error!.message),
-          suggestion: result.error!.suggestion || getErrorSuggestion(result.error!.code)
+          message: t(`error.${result.error!.code}` as MessageKey),
+          suggestion: result.error!.suggestion || t(`error.suggestion.${result.error!.code}` as MessageKey)
         }]);
         return;
       }
@@ -36,9 +37,9 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileProcessed }) => {
       if (result.validation && !result.validation.isValid) {
         const processedErrors = result.validation.errors.map(error => ({
           code: error.code as ErrorCode,
-          message: translateErrorMessage(error.code, error.message),
+          message: t(`error.${error.code}` as MessageKey),
           severity: error.severity,
-          suggestion: getErrorSuggestion(error.code),
+          suggestion: t(`error.suggestion.${error.code}` as MessageKey),
           location: error.location
         }));
         setErrors(processedErrors);
